@@ -1,0 +1,10 @@
+streamlit
+ollama
+pypdf
+numpy
+langchain-core 
+langgraph
+chromadb
+langchain
+sentence-transformers
+openai
