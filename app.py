@@ -20,17 +20,21 @@ from openai import OpenAI
 
 # Setting the API key
 
-openai.api_key = os.environ['OPENAI_API_KEY']
+XAI_API_KEY = os.environ['GROK_API_KEY']
+openai_client = OpenAI(
+  api_key=XAI_API_KEY,
+  base_url="https://api.groq.com/openai/v1",
+)
 
-openai_client = OpenAI()
 
-def rag(query, retrieved_documents, model="gpt-3.5-turbo"):
+
+def rag(query, retrieved_documents, model="llama-3.1-8b-instant"):
     information = "\n\n".join(retrieved_documents)
 
     messages = [
         {
             "role": "system",
-            "content": "You are a helpful expert financial research assistant. Your users are asking questions about information contained in an uploaded document report."
+            "content": "You are a helpful expert research assistant. Your users are asking questions about information contained in an uploaded document."
             "You will be shown the user's question, and the relevant information from the document. Answer the user's question using only this information."
         },
         {"role": "user", "content": f"Question: {query}. \n Information: {information}"}
@@ -117,7 +121,7 @@ if uploaded_file is not None:
 
 
 
-        results =   chroma_collection.query(query_texts=[prompt], n_results=5)
+        results = chroma_collection.query(query_texts=[prompt], n_results=5)
         retrieved_documents = results['documents'][0]
 
         #for document in retrieved_documents:
